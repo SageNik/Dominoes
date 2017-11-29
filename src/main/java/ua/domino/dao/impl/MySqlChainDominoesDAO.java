@@ -30,7 +30,7 @@ public class MySqlChainDominoesDAO implements ChainDominoesDAO {
         ResultSet resultSet = null;
         List<ChainDominoes> chainDominoesList = new ArrayList<>();
         try{
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("SELECT * FROM chain");
             resultSet = statement.executeQuery();
             while (resultSet.next()){
@@ -59,7 +59,7 @@ public class MySqlChainDominoesDAO implements ChainDominoesDAO {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try{
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("INSERT INTO chain (id,chain_number,set_number,element_amount) VALUES (?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setLong(1,0);
             statement.setString(2,chainDominoes.getChainNumber());
@@ -86,7 +86,7 @@ public class MySqlChainDominoesDAO implements ChainDominoesDAO {
         Connection con = null;
         PreparedStatement statement = null;
         try{
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("INSERT INTO chain_link (id,domino_id, chain_id,parent_id,link_number) VALUES (?,?,?,?,?)");
             statement.setLong(1,0);
             statement.setLong(2,chainLink.getDomino().getId());

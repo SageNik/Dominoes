@@ -29,7 +29,7 @@ public class MySqlSetDominoesDAO implements SetDominoesDAO {
         ResultSet resultSet = null;
         Long count = null;
         try {
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("SELECT COUNT(id) FROM set_domino");
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -54,7 +54,7 @@ public class MySqlSetDominoesDAO implements SetDominoesDAO {
         ResultSet resultSet = null;
         List<SetDominoes> setDominoesList = new ArrayList<>();
         try{
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("SELECT * FROM set_domino");
             resultSet = statement.executeQuery();
             while (resultSet.next()){
@@ -120,7 +120,7 @@ public class MySqlSetDominoesDAO implements SetDominoesDAO {
         ResultSet resultSet = null;
         SetDominoes setDominoes = new SetDominoes();
         try{
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("SELECT * FROM set_domino WHERE id=?");
             statement.setLong(1,setDominoesId);
             resultSet = statement.executeQuery();
@@ -156,7 +156,7 @@ public class MySqlSetDominoesDAO implements SetDominoesDAO {
         ResultSet resultSet = null;
 
         try {
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("INSERT INTO set_domino (id,set_number) VALUES (?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setLong(1, 0);
             statement.setLong(2, setDominoes.getSetNumber());
@@ -183,7 +183,7 @@ public class MySqlSetDominoesDAO implements SetDominoesDAO {
         PreparedStatement statement = null;
 
         try {
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("INSERT INTO cell_of_set_domino (id,set_domino_id,domino_id) VALUES (?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setLong(1, 0);
             statement.setLong(2, setDominoesId);

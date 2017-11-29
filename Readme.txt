@@ -12,7 +12,7 @@
                 mvn clean install
                 mvn jetty:run-war
 
-     В среде разработке: в файле pom.xml закомментировать <scope>provided</scope> в зависимостях с artifactId:
+     В среде разработки: в файле pom.xml закомментировать <scope>provided</scope> в зависимостях с artifactId:
         jetty-webapp, jetty-jsp  и запускать через main class ua.domino.launcher.Launcher
 
 

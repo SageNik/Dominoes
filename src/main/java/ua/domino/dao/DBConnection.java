@@ -1,5 +1,8 @@
 package ua.domino.dao;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import java.beans.PropertyVetoException;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,8 +17,11 @@ public class DBConnection {
 
     private static final Logger LOGGER = Logger.getLogger(DBConnection.class.getName());
 
-    public static Connection getConnection() {
-        LOGGER.info("Try get connection");
+    private static DBConnection dataSource;
+    private ComboPooledDataSource comboPooledDataSource;
+
+    private DBConnection() {
+
         Properties props = new Properties();
         FileInputStream in = null;
         Connection con = null;
@@ -34,11 +40,34 @@ public class DBConnection {
             String username = props.getProperty("jdbc.username");
             String password = props.getProperty("jdbc.password");
 
-            con = DriverManager.getConnection(url, username, password);
+            comboPooledDataSource = new ComboPooledDataSource();
+            comboPooledDataSource
+                    .setDriverClass(driver);
+            comboPooledDataSource
+                    .setJdbcUrl(url);
+            comboPooledDataSource.setUser(username);
+            comboPooledDataSource.setPassword(password);
 
-        } catch (IOException | ClassNotFoundException | SQLException e) {
+        } catch (IOException | ClassNotFoundException | PropertyVetoException e) {
             e.printStackTrace();
         }
-    return con;
+    }
+
+    public static DBConnection getInstance() {
+        if (dataSource == null)
+            dataSource = new DBConnection();
+        return dataSource;
+    }
+
+    public Connection getConnection() {
+        LOGGER.info("Try get connection");
+        Connection con = null;
+
+        try {
+            con = comboPooledDataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return con;
     }
 }

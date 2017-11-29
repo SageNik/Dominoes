@@ -29,7 +29,7 @@ public class MySqlDominoDAO implements DominoDAO {
         ResultSet resultSet = null;
         List<Domino> dominoList = new ArrayList<>();
         try {
-            con = DBConnection.getConnection();
+            con = DBConnection.getInstance().getConnection();
             statement = con.prepareStatement("SELECT * FROM domino");
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
